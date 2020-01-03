@@ -12,23 +12,20 @@ class App extends Component {
       anyLive: true,
       channel: 'ThePrimeagen',
       response: false,
-      endpoint: "4001"
+      endpoint: "localhost:4002"
     };
   }
 
   componentDidMount() {
     const { endpoint } = this.state;
     const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", data => this.setState({ response: data }))
+    socket.on("FromAPI", data => { this.setState({ response: data }) }
   }
 
   render() {
     const { response } = this.state;
     return (
       <div className="appliction">
-        <Helmet>
-          <style>{'body { background-color: #34495e; }'}</style>
-        </Helmet>
         <NavBar />
         <Grid container spacing={3} >
           <Grid item xs />

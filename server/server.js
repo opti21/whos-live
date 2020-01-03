@@ -4,7 +4,7 @@ const http = require("http");
 const socketIo = require("socket.io");
 const axios = require("axios").default;
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4002;
 const index = require("./routes/index");
 
 const app = express();
@@ -26,7 +26,7 @@ function getChannels() {
 
 const userList = ['opti_21', 'Veryhandsomebilly', 'ThePrimeagen']
 
-function getTwitchIDs(userList) {
+function getStreamStatuses(userList) {
   let userJoin = userList.join('&login=')
   let users = userJoin.toLowerCase()
   let twitch = axios.create({
@@ -37,14 +37,27 @@ function getTwitchIDs(userList) {
 
   twitch.get()
     .then(res => {
-      console.log(res.data.data)
       let data = res.data.data
       let userIDs = []
       data.forEach(e => {
         userIDs.push(e.id)
       })
-      console.log('UserIDs: ' + userIDs)
-      getStreamStatuses(userIDs);
+      let userIDJoin = userIDs.join('&user_id=')
+      let usersids = userIDJoin.toLowerCase()
+      let twitch = axios.create({
+        baseURL: `https://api.twitch.tv/helix/streams?user_id=${usersids}`,
+        timeout: 1000,
+        headers: { 'Client-ID': process.env.TWITCH_CLIENTID }
+      });
+
+      twitch.get()
+        .then(res => {
+          console.log(res.data.data)
+          io.emit('FromAPI', res.data.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     })
     .catch(err => {
       console.error(err)
@@ -52,25 +65,13 @@ function getTwitchIDs(userList) {
 
 }
 
-function getStreamStatuses(userIDs) {
-  let userJoin = userIDs.join('&user_id=')
-  let users = userJoin.toLowerCase()
-  let twitch = axios.create({
-    baseURL: `https://api.twitch.tv/helix/streams?user_id=${users}`,
-    timeout: 1000,
-    headers: { 'Client-ID': process.env.TWITCH_CLIENTID }
-  });
-
-  twitch.get()
-    .then(res => {
-      console.log(res.data.data)
-    })
-    .catch(err => {
-      console.error(err)
-    })
+function streamInterval() {
+  setInterval(() => {
+    getStreamStatuses(userList);
+  }, 5000);
 }
 
-getTwitchIDs(userList);
+streamInterval();
 
 // getChannels();
 
