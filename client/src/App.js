@@ -12,7 +12,7 @@ class App extends Component {
       anyLive: true,
       channel: 'ThePrimeagen',
       response: false,
-      endpoint: "http://localhost:4001"
+      endpoint: "4001"
     };
   }
 
