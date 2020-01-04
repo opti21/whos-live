@@ -16,6 +16,7 @@ const io = socketIo(server);
 
 io.on("connection", socket => {
   console.log("New client client connected");
+  socket.on('disconnect', () => console.log('Client disconnected'));
 })
 
 function getChannels() {
@@ -52,6 +53,7 @@ function getStreamStatuses(userList) {
 
       twitch.get()
         .then(res => {
+          console.log(new Date().toTimeString())
           console.log(res.data.data)
           io.emit('FromAPI', res.data.data)
         })

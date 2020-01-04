@@ -15,7 +15,7 @@ class App extends Component {
       isLoading: true,
       anyLive: false,
       response: false,
-      endpoint: "localhost:4002",
+      endpoint: "https://whos-live.herokuapp.com:50082",
       error: false
     };
   }
