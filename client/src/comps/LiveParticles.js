@@ -5,10 +5,12 @@ export default class LiveParticles extends Component {
     render() {
         return (
             <div>
-                <Particles params={{
+                <Particles style={{
+                    position: 'fixed', left: '0', top: '0', width: '100%', height: '100%', zIndex: '-1'
+                }} params={{
                     "particles": {
                         "number": {
-                            "value": 118,
+                            "value": 80,
                             "density": {
                                 "enable": true,
                                 "value_area": 800
@@ -34,12 +36,12 @@ export default class LiveParticles extends Component {
                         },
                         "opacity": {
                             "value": 0.5,
-                            "random": true,
+                            "random": false,
                             "anim": {
-                                "enable": true,
+                                "enable": false,
                                 "speed": 1,
                                 "opacity_min": 0.1,
-                                "sync": true
+                                "sync": false
                             }
                         },
                         "size": {
@@ -54,22 +56,22 @@ export default class LiveParticles extends Component {
                         },
                         "line_linked": {
                             "enable": true,
-                            "distance": 128.27296486924183,
+                            "distance": 150,
                             "color": "#ffffff",
                             "opacity": 0.4,
                             "width": 1
                         },
                         "move": {
                             "enable": true,
-                            "speed": 2,
-                            "direction": "top",
+                            "speed": 1,
+                            "direction": "none",
                             "random": false,
                             "straight": false,
                             "out_mode": "out",
                             "bounce": false,
                             "attract": {
                                 "enable": false,
-                                "rotateX": 0,
+                                "rotateX": 600,
                                 "rotateY": 1200
                             }
                         }
@@ -82,7 +84,7 @@ export default class LiveParticles extends Component {
                                 "mode": "repulse"
                             },
                             "onclick": {
-                                "enable": true,
+                                "enable": false,
                                 "mode": "push"
                             },
                             "resize": true

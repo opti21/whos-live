@@ -24,7 +24,7 @@ function getChannels() {
   }, 1000)
 }
 
-const userList = ['opti_21', 'Veryhandsomebilly', 'ThePrimeagen']
+const userList = ['opti_21', 'VeryHandsomeBilly', 'ThePrimeagen']
 
 function getStreamStatuses(userList) {
   let userJoin = userList.join('&login=')
