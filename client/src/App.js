@@ -87,9 +87,11 @@ class App extends Component {
           <Grid item xs />
         </Grid>
         {anyLive ? (
-          <NotLiveParticles />
+          <LiveParticles />
+
         ) : (
-            <LiveParticles />
+            <NotLiveParticles />
+
           )}
       </div>
     );

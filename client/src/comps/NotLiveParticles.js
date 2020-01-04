@@ -12,7 +12,7 @@ export default class LiveParticles extends Component {
 						{
 							"particles": {
 								"number": {
-									"value": 80,
+									"value": 40,
 									"density": {
 										"enable": true,
 										"value_area": 800
@@ -65,8 +65,8 @@ export default class LiveParticles extends Component {
 								},
 								"move": {
 									"enable": true,
-									"speed": 4,
-									"direction": "top",
+									"speed": 1,
+									"direction": "none",
 									"random": false,
 									"straight": false,
 									"out_mode": "out",
