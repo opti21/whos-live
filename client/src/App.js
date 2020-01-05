@@ -1,48 +1,114 @@
 import { Helmet } from 'react-helmet'
 import React, { Component } from "react";
-import socketIOClient from "socket.io-client";
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import ChannelList from './comps/ChannelList'
 import LiveParticles from './comps/LiveParticles'
 import NotLiveParticles from './comps/NotLiveParticles'
 import Error from './comps/Error'
+import axios from 'axios'
 
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoading: true,
       anyLive: false,
       response: false,
-      endpoint: "https://whos-live.herokuapp.com:14037",
       error: false
     };
   }
 
   componentDidMount() {
-    const { endpoint } = this.state;
-    const socket = socketIOClient(endpoint);
-    socket.on("FromAPI", (data) => {
-      if (data.length === 0) {
-        this.setState({
-          isLoading: false,
-          anyLive: false
+    let userList = ['opti_21', 'VeryHandsomeBilly', 'ThePrimeagen']
+    let self = this
+
+    function getStreamStatuses(userList) {
+      let userJoin = userList.join('&login=')
+      let users = userJoin.toLowerCase()
+      let twitch = axios.create({
+        baseURL: `https://api.twitch.tv/helix/users?login=${users}`,
+        timeout: 1000,
+        headers: { 'Client-ID': 'zoyj6jyelva5ky5jsoxx4xvj12xka0' }
+      });
+
+
+      twitch.get()
+        .then((res) => {
+          let data = res.data.data
+          let userIDs = []
+          data.forEach(e => {
+            userIDs.push(e.id)
+          })
+          let userIDJoin = userIDs.join('&user_id=')
+          let usersids = userIDJoin.toLowerCase()
+          let twitch = axios.create({
+            baseURL: `https://api.twitch.tv/helix/streams?user_id=${usersids}`,
+            timeout: 1000,
+            headers: { 'Client-ID': 'zoyj6jyelva5ky5jsoxx4xvj12xka0' }
+          });
+
+          twitch.get()
+            .then((res) => {
+              let data = res.data.data
+              console.info(res.headers)
+              console.log(new Date().toTimeString())
+              if (data.length === 0) {
+                self.setState({
+                  isLoading: false,
+                  anyLive: false
+                })
+              } else {
+                self.setState({
+                  response: data,
+                  isLoading: false,
+                  anyLive: true,
+                  error: false
+                })
+              }
+            })
+            .catch(err => {
+              console.error(err)
+              self.setState({ error: err })
+            })
         })
-      } else {
-        this.setState({
-          response: data,
-          isLoading: false,
-          anyLive: true,
-          error: false
+        .catch(err => {
+          console.error(err)
+          self.setState({ error: err })
         })
-        console.log(data)
-      }
-    })
-    socket.on("connect_error", (err) => {
-      this.setState({ error: err })
-      console.error(err)
-    })
+
+    }
+
+    function streamInterval() {
+      var streamStatus = setInterval(() => {
+        getStreamStatuses(userList);
+      }, 1000);
+    }
+
+    streamInterval();
+
+    // const { endpoint } = this.state;
+    // const socket = socketIOClient(endpoint);
+    // socket.on("FromAPI", (data) => {
+    //   if (data.length === 0) {
+    //     this.setState({
+    //       isLoading: false,
+    //       anyLive: false
+    //     })
+    //   } else {
+    //     this.setState({
+    //       response: data,
+    //       isLoading: false,
+    //       anyLive: true,
+    //       error: false
+    //     })
+    //     console.log(data)
+    //   }
+    // })
+    // socket.on("connect_error", (err) => {
+    //   this.setState({ error: err })
+    //   console.error(err)
+    // })
   }
 
   render() {

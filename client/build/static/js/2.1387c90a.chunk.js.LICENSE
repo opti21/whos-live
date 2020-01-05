@@ -12,13 +12,6 @@ object-assign
 @license MIT
 */
 
-/*!
- * The buffer module from node.js, for the browser.
- *
- * @author   Feross Aboukhadijeh <http://feross.org>
- * @license  MIT
- */
-
 /*! Moment Duration Format v2.2.2
      *  https://github.com/jsmreese/moment-duration-format
      *  Date: 2018-02-16
@@ -57,8 +50,6 @@ object-assign
  * LICENSE file in the root directory of this source tree.
  */
 
-/*! https://mths.be/utf8js v2.1.2 by @mathias */
-
 /** @license React v16.12.0
  * react-is.production.min.js
  *
@@ -66,4 +57,11 @@ object-assign
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ */
+
+/*!
+ * Determine if an object is a Buffer
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
  */

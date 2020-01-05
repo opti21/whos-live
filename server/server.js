@@ -53,6 +53,7 @@ function getStreamStatuses(userList) {
 
       twitch.get()
         .then(res => {
+          console.log(res.headers['ratelimit-remaining'])
           console.log(new Date().toTimeString())
           console.log(res.data.data)
           io.emit('FromAPI', res.data.data)
@@ -70,7 +71,7 @@ function getStreamStatuses(userList) {
 function streamInterval() {
   setInterval(() => {
     getStreamStatuses(userList);
-  }, 5000);
+  }, 500);
 }
 
 streamInterval();
