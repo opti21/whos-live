@@ -28,7 +28,7 @@ class App extends Component {
       let users = userJoin.toLowerCase()
       let twitch = axios.create({
         baseURL: `https://api.twitch.tv/helix/users?login=${users}`,
-        timeout: 1000,
+        timeout: 2000,
         headers: { 'Client-ID': 'zoyj6jyelva5ky5jsoxx4xvj12xka0' }
       });
 
@@ -44,7 +44,7 @@ class App extends Component {
           let usersids = userIDJoin.toLowerCase()
           let twitch = axios.create({
             baseURL: `https://api.twitch.tv/helix/streams?user_id=${usersids}`,
-            timeout: 1000,
+            timeout: 2000,
             headers: { 'Client-ID': 'zoyj6jyelva5ky5jsoxx4xvj12xka0' }
           });
 
@@ -56,7 +56,8 @@ class App extends Component {
               if (data.length === 0) {
                 self.setState({
                   isLoading: false,
-                  anyLive: false
+                  anyLive: false,
+                  error: false
                 })
               } else {
                 self.setState({
@@ -69,12 +70,12 @@ class App extends Component {
             })
             .catch(err => {
               console.error(err)
-              self.setState({ error: err })
+              self.setState({ error: true })
             })
         })
         .catch(err => {
           console.error(err)
-          self.setState({ error: err })
+          self.setState({ error: true })
         })
 
     }
